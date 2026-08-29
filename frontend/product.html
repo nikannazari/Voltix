@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barghino | درباره برقینو</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg-deep: #0a0e17;
+            --bg-gradient-start: #0a0e17;
+            --bg-gradient-end: #0d121e;
+            --bg-card: #111827cc;
+            --cyan: #00e5ff;
+            --cyan-glow: #00e5ff66;
+            --green: #00ff88;
+            --red: #ff4757;
+            --gold: #ffb700;
+            --border: #1e2d40;
+            --input-bg: #1a1f2e;
+            --text-primary: #ffffff;
+            --text-muted: #8899aa;
+            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 40px rgba(0, 229, 255, 0.15);
+        }
+        body {
+            font-family: 'Segoe UI', 'Vazirmatn', 'Tahoma', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .circuit-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+        .particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 12px var(--cyan-glow);
+            animation: floatUp linear infinite;
+            opacity: 0;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-110vh) scale(0.2); opacity: 0; }
+        }
+
+        .shop-header {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: relative;
+            z-index: 10;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--cyan), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .logo-space {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            border: 2px dashed rgba(255,255,255,0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.3);
+            margin-left: 8px;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: transparent;
+            border: 1.5px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .back-btn:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: rgba(0, 229, 255, 0.05);
+        }
+
+        .product-hero {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 3rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .product-hero h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, var(--cyan), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        .flag-row {
+            font-size: 2.5rem;
+            margin: 1.5rem 0;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+        .product-desc {
+            color: var(--text-primary);
+            line-height: 2;
+            font-size: 1rem;
+            text-align: justify;
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+            padding: 2rem;
+            border-radius: 32px;
+            border: 1px solid var(--border);
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            padding: 1rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        @media (max-width: 768px) {
+            .product-hero h1 { font-size: 2rem; }
+            .shop-header { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="circuit-bg"><canvas id="circuitCanvas"></canvas></div>
+    <div class="particles" id="particlesContainer"></div>
+
+    <header class="shop-header">
+        <a href="/" class="logo"><span class="logo-space">لوگو</span>📖 درباره Barghino</a>
+        <div>
+            <a href="/" class="back-btn">🏠 صفحه اصلی</a>
+            <a href="/shop.html" class="back-btn" style="margin-right:0.5rem;">🛒 فروشگاه</a>
+        </div>
+    </header>
+
+    <div class="product-hero">
+        <h1>Barghino؛ آینده هوشمند انرژی</h1>
+        <div class="flag-row">
+            <span>🇮🇷</span>
+            <span style="font-size:1rem;">جمهوری اسلامی ایران</span>
+            <span>🇮🇷</span>
+        </div>
+        <div class="product-desc">
+            <p><strong>با Barghino، هزینه‌های خود را کاهش دهید و زندگی را هوشمندتر کنید.</strong></p>
+            <p>Barghino یک سامانه کنترل هوشمند مصرف برق مبتنی بر اینترنت اشیا و رباتیک است. کافیست ماژول هوشمند را روی پریز نصب کرده و کنسول رومیزی را روی میز خود قرار دهید. سپس با ورود به سایت، هر پریز را جداگانه خاموش/روشن کنید، زمان‌بندی تنظیم نمایید و مصرف انرژی را بهینه سازید.</p>
+            <p>این پروژه با افتخار در <span style="color:var(--cyan);">جمهوری اسلامی ایران</span> و با تکیه بر دانش بومی جوانان نخبه طراحی شده است. تمام فعالیت‌های آن در چارچوب قوانین و مقررات کشور عزیزمان صورت می‌پذیرد. ما متعهد به کاهش مصرف برق، حفظ محیط زیست و کمک به اقتصاد خانواده‌ها هستیم.</p>
+            <p>Barghino برای حضور در <span style="color:var(--gold);">مسابقات بین‌المللی خوارزمی</span> آماده شده و نمادی از توانمندی ایران در حوزه فناوری‌های نوین است.</p>
+            <p style="text-align:center; margin-top:1rem;">🌱 <span style="color:var(--green);">با Barghino، هر خانه یک نیروگاه هوشمند می‌شود.</span></p>
+        </div>
+    </div>
+
+    <div class="copyright">© 2026 Barghino | سازنده ربات پارسا گودرزی | طراحی و ساخت سایت نیکان نظری</div>
+
+    <script>
+        const canvas = document.getElementById('circuitCanvas');
+        const ctx = canvas.getContext('2d');
+        let nodes = [], connections = [];
+
+        function resizeCanvas() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            genCircuit();
+        }
+
+        function genCircuit() {
+            nodes = [];
+            connections = [];
+            for (let i = 0; i < 40; i++) nodes.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                radius: Math.random() * 2 + 1.5,
+                pulse: Math.random() * Math.PI * 2
+            });
+            for (let i = 0; i < nodes.length; i++)
+                for (let j = i + 1; j < nodes.length; j++) {
+                    let d = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+                    if (d < 120) connections.push({ a: i, b: j, maxDist: 120 });
+                }
+        }
+
+        function drawCircuit() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const lineColor = 'rgba(0, 229, 255, 0.4)';
+            const nodeColor = 'rgba(0, 229, 255, 0.6)';
+
+            nodes.forEach(n => {
+                n.x += n.vx;
+                n.y += n.vy;
+                if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+                if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+                n.pulse += 0.02;
+            });
+            connections.forEach(c => {
+                let a = nodes[c.a], b = nodes[c.b], d = Math.hypot(a.x - b.x, a.y - b.y), op = Math.max(0, 0.3 * (1 - d / c.maxDist));
+                if (op > 0.01) {
+                    ctx.beginPath();
+                    ctx.moveTo(a.x, a.y);
+                    ctx.lineTo(b.x, b.y);
+                    ctx.strokeStyle = lineColor;
+                    ctx.lineWidth = 0.8;
+                    ctx.stroke();
+                }
+            });
+            nodes.forEach(n => {
+                let s = 1 + Math.sin(n.pulse) * 0.4;
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, n.radius * s, 0, Math.PI * 2);
+                ctx.fillStyle = nodeColor;
+                ctx.fill();
+            });
+            requestAnimationFrame(drawCircuit);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawCircuit();
+
+        const particlesContainer = document.getElementById('particlesContainer');
+
+        function createParticle() {
+            let p = document.createElement('div');
+            p.className = 'particle';
+            let s = Math.random() * 4 + 2;
+            p.style.width = s + 'px';
+            p.style.height = s + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.bottom = '-20px';
+            p.style.animationDuration = Math.random() * 10 + 6 + 's';
+            particlesContainer.appendChild(p);
+            p.addEventListener('animationend', () => p.remove());
+        }
+
+        setInterval(() => {
+            if (particlesContainer.children.length < 35) createParticle();
+        }, 400);
+        for (let i = 0; i < 15; i++) setTimeout(createParticle, i * 150);
+    </script>
+</body>
+</html>

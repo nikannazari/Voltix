@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Barghino | کنترل هوشمند انرژی خانه</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0f;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Tahoma', 'Avenir', Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            line-height: 1.5;
+            transition: all 0.2s ease;
+        }
+
+        body.lang-en {
+            direction: ltr;
+            text-align: left;
+        }
+        body.lang-fa {
+            direction: rtl;
+            text-align: right;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e1e2a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 12px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(10, 20, 50, 0.9)),
+                        radial-gradient(circle at 20% 30%, #1a2a5a22 0%, transparent 60%),
+                        radial-gradient(circle at 80% 70%, #00336622 0%, transparent 60%);
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-nav {
+            background: rgba(10, 15, 25, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 0 0 28px 28px;
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .header-nav-siteName h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 700;
+            font-size: clamp(1.2rem, 5vw, 1.8rem);
+            letter-spacing: -0.3px;
+            text-shadow: 0 2px 6px rgba(0, 150, 255, 0.5);
+        }
+
+        .header-nav-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 0 12px rgba(0, 200, 255, 0.5);
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .header-nav-logo:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 25px rgba(0, 200, 255, 0.8);
+        }
+
+        .header-nav-list {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: clamp(12px, 4vw, 28px);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .header-nav-list-item-link {
+            text-decoration: none;
+            color: #f0f3fa;
+            font-weight: 500;
+            font-size: clamp(0.8rem, 3.5vw, 1rem);
+            transition: all 0.2s;
+            padding: 6px 0;
+            white-space: nowrap;
+        }
+
+        .header-nav-list-item-link:hover {
+            color: #7bc5ff;
+            border-bottom: 2px solid #3b82f6;
+        }
+
+        .header-nav-list-item-div {
+            display: flex;
+            gap: clamp(12px, 3vw, 28px);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .divider {
+            color: rgba(255,255,240,0.5);
+            font-weight: 300;
+        }
+
+        .user-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,245,0.15);
+            padding: 4px;
+            transition: 0.2s;
+        }
+
+        .lang-switch-btn {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.6);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .lang-switch-btn:hover {
+            background: rgba(59, 130, 246, 0.5);
+            border-color: #3b82f6;
+            transform: scale(1.02);
+        }
+
+        .header-header {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 120px 6% 70px 6%;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            color: white;
+        }
+
+        .header-header h1 {
+            font-size: clamp(2.5rem, 9vw, 5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #7bc5ff, #a5f0ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-header h2 {
+            font-size: clamp(1.2rem, 5vw, 2.3rem);
+            font-weight: 500;
+            margin-top: 0.3rem;
+            line-height: 1.3;
+        }
+
+        .header-header-p {
+            font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+            line-height: 1.65;
+            max-width: 650px;
+            margin-top: 1.8rem;
+            margin-bottom: 2rem;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(6px);
+            padding: 1.2rem 1.8rem;
+            border-radius: 32px;
+            border-right: 4px solid #3b82f6;
+            font-weight: 400;
+        }
+        body.lang-en .header-header-p {
+            border-right: none;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .image-showcase {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: center;
+            margin-top: 2rem;
+            justify-content: flex-start;
+        }
+        body.lang-en .image-showcase {
+            justify-content: flex-start;
+        }
+
+        .header-img {
+            width: min(380px, 85vw);
+            height: 260px;
+            border-radius: 28px;
+            object-fit: cover;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+        .header-img:hover {
+            transform: scale(1.02);
+        }
+
+        .header-img2 {
+            width: min(280px, 65vw);
+            height: 200px;
+            border-radius: 28px;
+            object-fit: cover;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+        .header-img2:hover {
+            transform: scale(1.02);
+        }
+
+        .energy-cta {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: linear-gradient(95deg, #2563eb, #3b82f6);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: clamp(0.85rem, 3vw, 1rem);
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            border: 1.5px solid #a0c4ff;
+            padding: 10px 24px;
+            border-radius: 60px;
+            color: #eef4ff;
+            font-weight: 500;
+            text-decoration: none;
+            backdrop-filter: blur(4px);
+        }
+        .btn-outline-light:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: #7bc5ff;
+        }
+
+        .features-section {
+            background: #0f1118;
+            padding: 4rem 6%;
+        }
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+        .feature-card {
+            background: #1e1f2c;
+            border-radius: 2rem;
+            padding: 2rem 1.5rem;
+            border: 1px solid #2d2f3e;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: #3b82f6;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        }
+        .feature-icon {
+            font-size: 2.8rem;
+        }
+        .feature-card h3 {
+            margin: 1rem 0 0.7rem;
+            font-size: clamp(1.3rem, 4vw, 1.7rem);
+            color: white;
+        }
+        .feature-card p {
+            color: #b9c3e6;
+            font-size: 0.95rem;
+        }
+
+        .testimonial {
+            background: linear-gradient(145deg, #0b0d14, #10121c);
+            padding: 3.5rem 5%;
+            text-align: center;
+        }
+        .testimonial-box {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .testimonial-badge {
+            background: #1e2a3a;
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            color: #95c0ff;
+            display: inline-block;
+        }
+        .testimonial-text {
+            font-size: clamp(1rem, 4vw, 1.4rem);
+            margin-top: 1.2rem;
+            color: #e0edff;
+        }
+
+        footer {
+            background: #06080c;
+            color: #8a99b0;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: clamp(16px, 5vw, 32px);
+            flex-wrap: wrap;
+            margin-bottom: 1.2rem;
+        }
+        .footer-links a {
+            color: #9aaec9;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: #7bc5ff;
+        }
+
+        @media (max-width: 768px) {
+            .header-nav {
+                flex-direction: column;
+                border-radius: 0 0 20px 20px;
+            }
+            .header-header {
+                padding-top: 160px;
+                align-items: center;
+                text-align: center;
+            }
+            .header-header-p {
+                text-align: center;
+                max-width: 95%;
+            }
+            .image-showcase {
+                justify-content: center;
+            }
+            .energy-cta {
+                justify-content: center;
+            }
+        }
+        .floating-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            color: #b9e0ff;
+            z-index: 99;
+        }
+        @media (max-width: 550px) {
+            .floating-badge { display: none; }
+        }
+    </style>
+</head>
+<body class="lang-fa">
+<header class="header">
+    <nav class="header-nav">
+        <div class="header-nav-siteName">
+            <h3>
+                <a href="#" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: white;">
+                    <img src="/assets/smart3.png" alt="Barghino Logo" class="header-nav-logo">
+                    <span style="color:white;">Barghino</span>
+                </a>
+            </h3>
+        </div>
+
+        <div class="header-nav-item">
+            <ul class="header-nav-list">
+                <div class="header-nav-list-item-div">
+                    <li class="header-nav-list-item"><a href="#" class="header-nav-list-item-link" data-key="navHome">خانه</a></li>
+                    <li class="header-nav-list-item"><a href="/login.html" class="header-nav-list-item-link" data-key="navTry">امتحان کن</a></li>
+                    <li class="header-nav-list-item"><a href="#" class="header-nav-list-item-link" data-key="navAbout">درباره ما</a></li>
+                </div>
+                <li class="header-nav-list-item"><a href="/register.html" class="header-nav-list-item-link" data-key="navRegister">ثبت‌نام</a></li>
+                <li class="divider">/</li>
+                <li class="header-nav-list-item"><a href="/login.html" class="header-nav-list-item-link" data-key="navLogin">ورود</a></li>
+                <li><span style="font-size:1.5rem;">👤</span></li>
+                <li><button id="langToggleBtn" class="lang-switch-btn">🇬🇧 English</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="header-header">
+        <h1 data-key="heroHi">سلام!</h1>
+        <h2><span style="color:#6cb2ff;">Barghino</span> <span data-key="heroWelcome">به</span> <span data-key="heroTitle">خوش آمدید — کنترل هوشمند انرژی</span></h2>
+        
+        <div class="header-header-p">
+            <p data-key="heroText1">✨ یاد بگیرید چطور هزینه بهینه‌سازی خونه‌تون رو کاهش بدید.<br>
+            ⚡ Barghino یعنی : مدیریت مصرف برق خونه فقط با وب‌سایت.<br>
+            🔌 کافی‌ست یک جعبه به سیستم برق و دیگری روی میزتون نصب کنید...<br>
+            🖱️ وارد سایت شوید و کنترل کنید.</p>
+        </div>
+
+        <div class="image-showcase">
+            <img src="/assets/smart2.jpg" alt="خانه هوشمند" class="header-img">
+            <img src="/assets/smart1.jpg" alt="اینترنت اشیا" class="header-img2">
+        </div>
+
+        <div class="energy-cta">
+            <a href="/login.html" class="btn-primary" data-key="btnStart">🚀 شروع کنید</a>
+            <a href="#features" class="btn-outline-light" data-key="btnLearn">📖 بیشتر بدانید</a>
+        </div>
+    </section>
+    <div class="floating-badge" data-key="floatingBadge">⚡ کاهش مصرف • کنترل آنی</div>
+</header>
+
+<main>
+    <section class="features-section" id="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📉</div>
+                <h3 data-key="feature1Title">کاهش قبض</h3>
+                <p data-key="feature1Desc">تحلیل لحظه‌ای مصرف و کاهش هزینه انرژی تا ۳۵٪ با الگوریتم‌های هوشمند Barghino.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3 data-key="feature2Title">کنترل از راه دور</h3>
+                <p data-key="feature2Desc">مدیریت روشنایی، گرمایش، لوازم خانگی از هر نقطه با موبایل یا لپ‌تاپ.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 data-key="feature3Title">امن و خصوصی</h3>
+                <p data-key="feature3Desc">ارتباط رمزنگاری شده بین دستگاه‌های شما و ابر Barghino، حداکثر امنیت.</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2.5rem;">
+            <a href="/login.html" style="background: none; border: 1.5px solid #3b82f6; padding: 10px 28px; border-radius: 40px; color: white; text-decoration: none; font-weight: 500; display: inline-block;" data-key="dashboardLink">⚙️ ورود به داشبورد →</a>
+        </div>
+    </section>
+
+    <section class="testimonial">
+        <div class="testimonial-box">
+            <span class="testimonial-badge" data-key="testimonialBadge">⭐ مورد اعتماد کاربران اولیه</span>
+            <p class="testimonial-text" data-key="testimonialText">"Barghino طی یک ماه ۲۸٪ قبض برق من رو کاهش داد. نصب فوق‌العاده ساده بود، فقط وصل کن و استفاده کن."</p>
+            <p style="margin-top: 1rem; font-weight: 500; color:#b9d0ff;" data-key="testimonialAuthor">— رضا طیبی، علاقمند به خانه هوشمند</p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-links">
+        <a href="#" data-key="footerPrivacy">حریم خصوصی</a>
+        <a href="#" data-key="footerTerms">شرایط استفاده</a>
+        <a href="#" data-key="footerSupport">پشتیبانی</a>
+        <a href="/login.html" data-key="footerDemo">نسخه آزمایشی</a>
+        <a href="#" data-key="footerContact">تماس با ما</a>
+    </div>
+    <p data-key="footerCopyright">© ۲۰۲۶ Barghino — مدیریت هوشمند انرژی برای خانه‌های مدرن.</p>
+    <p style="margin-top: 0.6rem; font-size: 0.7rem;" data-key="footerSub">⚡ مصرف خود را کنترل کنید، ردپای کربن را کاهش دهید.</p>
+</footer>
+
+<script>
+    const translations = {
+        fa: {
+            navHome: "خانه",
+            navTry: "امتحان کن",
+            navAbout: "درباره ما",
+            navRegister: "ثبت‌نام",
+            navLogin: "ورود",
+            heroHi: "سلام!",
+            heroWelcome: "به",
+            heroTitle: "خوش آمدید — کنترل هوشمند انرژی",
+            heroText1: "✨ یاد بگیرید چطور هزینه بهینه‌سازی خونه‌تون رو کاهش بدید.\n⚡ Barghino یعنی : مدیریت مصرف برق خونه فقط با وب‌سایت.\n🔌 کافی‌ست یک جعبه به سیستم برق و دیگری روی میزتون نصب کنید...\n🖱️ وارد سایت شوید و کنترل کنید.",
+            btnStart: "🚀 شروع کنید",
+            btnLearn: "📖 بیشتر بدانید",
+            floatingBadge: "⚡ کاهش مصرف • کنترل آنی",
+            feature1Title: "کاهش قبض",
+            feature1Desc: "تحلیل لحظه‌ای مصرف و کاهش هزینه انرژی تا ۳۵٪ با الگوریتم‌های هوشمند Barghino.",
+            feature2Title: "کنترل از راه دور",
+            feature2Desc: "مدیریت روشنایی، گرمایش، لوازم خانگی از هر نقطه با موبایل یا لپ‌تاپ.",
+            feature3Title: "امن و خصوصی",
+            feature3Desc: "ارتباط رمزنگاری شده بین دستگاه‌های شما و ابر Barghino، حداکثر امنیت.",
+            dashboardLink: "⚙️ ورود به داشبورد →",
+            testimonialBadge: "⭐ مورد اعتماد کاربران اولیه",
+            testimonialText: "\"Barghino طی یک ماه ۲۸٪ قبض برق من رو کاهش داد. نصب فوق‌العاده ساده بود، فقط وصل کن و استفاده کن.\"",
+            testimonialAuthor: "— رضا طیبی، علاقمند به خانه هوشمند",
+            footerPrivacy: "حریم خصوصی",
+            footerTerms: "شرایط استفاده",
+            footerSupport: "پشتیبانی",
+            footerDemo: "نسخه آزمایشی",
+            footerContact: "تماس با ما",
+            footerCopyright: "© ۲۰۲۶ Barghino — مدیریت هوشمند انرژی برای خانه‌های مدرن.",
+            footerSub: "⚡ مصرف خود را کنترل کنید، ردپای کربن را کاهش دهید."
+        },
+        en: {
+            navHome: "Home",
+            navTry: "Try",
+            navAbout: "About",
+            navRegister: "Register",
+            navLogin: "Login",
+            heroHi: "Hi!",
+            heroWelcome: "Welcome to",
+            heroTitle: "Barghino — Smart Energy Control",
+            heroText1: "✨ Learn how to reduce your home improvement costs.\n⚡ Barghino means: Control your home's power manager just by website.\n🔌 Just plug one box into the power system and put the other on your table...\n🖱️ Enter the site and take control.",
+            btnStart: "🚀 Get Started",
+            btnLearn: "📖 Learn More",
+            floatingBadge: "⚡ Reduce bills • Real-time control",
+            feature1Title: "Lower Bills",
+            feature1Desc: "Real-time consumption analytics to cut energy costs by up to 35% with Barghino smart algorithms.",
+            feature2Title: "Remote Control",
+            feature2Desc: "Manage lighting, heating, appliances from anywhere using your phone or laptop.",
+            feature3Title: "Secure & Private",
+            feature3Desc: "Encrypted connection between your devices and Barghino cloud, maximum security.",
+            dashboardLink: "⚙️ Go to Dashboard →",
+            testimonialBadge: "⭐ Trusted by early adopters",
+            testimonialText: "\"Barghino reduced my electricity bill by 28% within the first month. The setup was effortless — just plug and play.\"",
+            testimonialAuthor: "— Reza T., smart home enthusiast",
+            footerPrivacy: "Privacy",
+            footerTerms: "Terms of Service",
+            footerSupport: "Support",
+            footerDemo: "Try Demo",
+            footerContact: "Contact",
+            footerCopyright: "© 2026 Barghino — Intelligent energy management for modern homes.",
+            footerSub: "⚡ Control your consumption, reduce carbon footprint."
+        }
+    };
+
+    let currentLang = 'fa';
+
+    function updateLanguage(lang) {
+        currentLang = lang;
+        const body = document.body;
+        if (lang === 'en') {
+            body.classList.remove('lang-fa');
+            body.classList.add('lang-en');
+            body.setAttribute('dir', 'ltr');
+            document.documentElement.lang = 'en';
+            document.querySelector('#langToggleBtn').innerHTML = '🇮🇷 فارسی';
+        } else {
+            body.classList.remove('lang-en');
+            body.classList.add('lang-fa');
+            body.setAttribute('dir', 'rtl');
+            document.documentElement.lang = 'fa';
+            document.querySelector('#langToggleBtn').innerHTML = '🇬🇧 English';
+        }
+
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (translations[lang] && translations[lang][key]) {
+                if (el.tagName === 'P' && key === 'heroText1') {
+                    el.innerHTML = translations[lang][key].replace(/\n/g,'<br>');
+                } else {
+                    el.innerText = translations[lang][key];
+                }
+            }
+        });
+
+        const heroDiv = document.querySelector('.header-header-p p');
+        if (heroDiv && translations[lang] && translations[lang].heroText1) {
+            heroDiv.innerHTML = translations[lang].heroText1.replace(/\n/g,'<br>');
+        }
+
+        const h2Element = document.querySelector('.header-header h2');
+        if (h2Element && translations[lang]) {
+            if (lang === 'fa') {
+                h2Element.innerHTML = `<span style="color:#6cb2ff;">Barghino</span> <span data-key="heroWelcome">${translations[lang].heroWelcome}</span> <span data-key="heroTitle">${translations[lang].heroTitle}</span>`;
+            } else {
+                h2Element.innerHTML = `<span data-key="heroWelcome">${translations[lang].heroWelcome}</span> <span style="color:#6cb2ff;">Barghino</span> <span data-key="heroTitle">${translations[lang].heroTitle}</span>`;
+            }
+        }
+
+        const testimonialP = document.querySelector('.testimonial-text');
+        const testimonialAuthorP = document.querySelector('.testimonial-box p:last-child');
+        if (testimonialP && translations[lang].testimonialText) testimonialP.innerText = translations[lang].testimonialText;
+        if (testimonialAuthorP && translations[lang].testimonialAuthor) testimonialAuthorP.innerText = translations[lang].testimonialAuthor;
+    }
+
+    document.getElementById('langToggleBtn').addEventListener('click', () => {
+        if (currentLang === 'fa') {
+            updateLanguage('en');
+        } else {
+            updateLanguage('fa');
+        }
+    });
+
+    updateLanguage('fa');
+</script>
+</body>
+</html>
