@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barghino | ورود</title>
+    <title>Barghino | ثبت‌نام</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         :root {
             --bg-deep: #0a0e17;
             --bg-gradient-start: #0a0e17;
@@ -20,9 +24,9 @@
             --input-bg: #1a1f2e;
             --text-primary: #ffffff;
             --text-muted: #8899aa;
-            --shadow-sm: 0 10px 25px -5px rgba(0,0,0,0.3);
-            --shadow-md: 0 20px 25px -5px rgba(0,0,0,0.4);
-            --shadow-glow: 0 0 40px rgba(0,229,255,0.15);
+            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 40px rgba(0, 229, 255, 0.15);
         }
         body {
             font-family: 'Segoe UI', 'Vazirmatn', 'Tahoma', sans-serif;
@@ -59,14 +63,24 @@
             opacity: 0;
         }
         @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            10% { opacity: 0.5; }
-            90% { opacity: 0.5; }
-            100% { transform: translateY(-110vh) scale(0.2); opacity: 0; }
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-110vh) scale(0.2);
+                opacity: 0;
+            }
         }
 
-        /* ===== کارت لاگین ===== */
-        .login-wrapper {
+        /* ===== کارت ثبت‌نام ===== */
+        .register-wrapper {
             position: relative;
             z-index: 10;
             display: flex;
@@ -74,7 +88,7 @@
             justify-content: center;
             flex-direction: column;
         }
-        .login-card {
+        .register-card {
             background: var(--bg-card);
             backdrop-filter: blur(16px);
             border: 1px solid var(--border);
@@ -85,7 +99,7 @@
             width: 400px;
             max-width: 95vw;
         }
-        .login-card:hover {
+        .register-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-glow);
             border-color: var(--cyan);
@@ -105,10 +119,15 @@
             animation: statusPulse 2s infinite;
         }
         @keyframes statusPulse {
-            0%, 100% { box-shadow: 0 0 10px var(--green); }
-            50% { box-shadow: 0 0 18px #fff, 0 0 30px var(--green); }
+            0%,
+            100% {
+                box-shadow: 0 0 10px var(--green);
+            }
+            50% {
+                box-shadow: 0 0 18px #fff, 0 0 30px var(--green);
+            }
         }
-        .login-title {
+        .register-title {
             font-size: 1.8rem;
             font-weight: 800;
             background: linear-gradient(135deg, var(--cyan), var(--green));
@@ -117,7 +136,7 @@
             margin-bottom: 0.3rem;
             text-align: center;
         }
-        .login-subtitle {
+        .register-subtitle {
             color: var(--text-muted);
             text-align: center;
             font-size: 0.85rem;
@@ -173,7 +192,7 @@
         }
 
         /* ===== دکمه‌ها ===== */
-        .login-btn {
+        .register-btn {
             width: 100%;
             padding: 14px;
             background: linear-gradient(135deg, var(--cyan), var(--green));
@@ -186,7 +205,7 @@
             transition: all 0.3s ease;
             box-shadow: var(--shadow-sm);
         }
-        .login-btn:hover {
+        .register-btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-glow);
         }
@@ -208,10 +227,15 @@
         .shop-link-btn:hover {
             border-color: var(--cyan);
             color: var(--cyan);
-            background: rgba(0,229,255,0.05);
+            background: rgba(0, 229, 255, 0.05);
         }
         .error-msg {
             color: var(--red);
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        .success-msg {
+            color: var(--green);
             text-align: center;
             margin-top: 0.5rem;
         }
@@ -223,6 +247,19 @@
             border-top: 1px solid var(--border);
             margin-top: 2rem;
         }
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+        }
+        .login-link a {
+            color: var(--cyan);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -231,20 +268,21 @@
     <div class="circuit-bg"><canvas id="circuitCanvas"></canvas></div>
     <div class="particles" id="particlesContainer"></div>
 
-    <!-- ===== صفحه لاگین ===== -->
-    <div class="login-wrapper">
-        <div class="login-card">
+    <!-- ===== صفحه ثبت‌نام ===== -->
+    <div class="register-wrapper">
+        <div class="register-card">
             <div class="card-top-bar">
                 <div class="status-dot"></div>
                 <span>سیستم فعال</span>
             </div>
-            <h2 class="login-title">ورود به Barghino</h2>
-            <p class="login-subtitle">مدیریت هوشمند <span style="color:var(--cyan);">انرژی</span></p>
-            <form id="loginForm" autocomplete="off" action='dashboard.html'>
+            <h2 class="register-title">ثبت‌نام در Barghino</h2>
+            <p class="register-subtitle">ایجاد حساب کاربری <span style="color:var(--cyan);">رایگان</span></p>
+
+            <form id="registerForm" autocomplete="off">
                 <div class="input-group">
                     <label>👤 نام کاربری</label>
                     <div class="input-wrapper">
-                        <input type="text" id="username" placeholder="admin">
+                        <input type="text" id="username" placeholder="نام کاربری خود را وارد کنید">
                         <span class="input-icon">📧</span>
                     </div>
                 </div>
@@ -256,13 +294,23 @@
                         <button type="button" class="toggle-password" id="togglePass">👁️</button>
                     </div>
                 </div>
-                <button type="submit" class="login-btn">⚡ ورود</button>
+                <div class="input-group">
+                    <label>🔒 تکرار رمز عبور</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="confirmPassword" placeholder="••••">
+                        <span class="input-icon">🔑</span>
+                    </div>
+                </div>
+                <button type="submit" class="register-btn">📝 ثبت‌نام</button>
                 <div class="error-msg" id="errorMsg"></div>
+                <div class="success-msg" id="successMsg"></div>
             </form>
-            <a href="/register.html" class="shop-link-btn">📝 ثبت‌نام</a>
-            <button class="shop-link-btn" id="goShopFromLogin">🛒 فروشگاه</button>
-            <button class="shop-link-btn" id="goProductFromLogin">📖 درباره Barghino</button>
-            <button class="shop-link-btn" id="backToLanding" style="border-color:var(--cyan);color:var(--cyan);">🏠 بازگشت به صفحه اصلی</button>
+
+            <div class="login-link">
+                قبلاً ثبت‌نام کرده‌اید؟ <a href="/login.html">وارد شوید</a>
+            </div>
+
+            <a href="/" class="shop-link-btn">🏠 بازگشت به صفحه اصلی</a>
         </div>
         <div class="copyright">© 2026 Barghino | سازنده ربات پارسا گودرزی | طراحی و ساخت سایت نیکان نظری</div>
     </div>
@@ -276,7 +324,8 @@
         // ===================================================================
         const canvas = document.getElementById('circuitCanvas');
         const ctx = canvas.getContext('2d');
-        let nodes = [], connections = [];
+        let nodes = [],
+            connections = [];
 
         function resizeCanvas() {
             canvas.width = innerWidth;
@@ -315,7 +364,10 @@
                 n.pulse += 0.02;
             });
             connections.forEach(c => {
-                let a = nodes[c.a], b = nodes[c.b], d = Math.hypot(a.x - b.x, a.y - b.y), op = Math.max(0, 0.3 * (1 - d / c.maxDist));
+                let a = nodes[c.a],
+                    b = nodes[c.b],
+                    d = Math.hypot(a.x - b.x, a.y - b.y),
+                    op = Math.max(0, 0.3 * (1 - d / c.maxDist));
                 if (op > 0.01) {
                     ctx.beginPath();
                     ctx.moveTo(a.x, a.y);
@@ -363,42 +415,72 @@
         for (let i = 0; i < 15; i++) setTimeout(createParticle, i * 150);
 
         // ===================================================================
-        // 3. لاگین
+        // 3. ثبت‌نام
         // ===================================================================
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
+
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
-            const err = document.getElementById('errorMsg');
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
 
-            const users = JSON.parse(localStorage.getItem('barghino_users') || '[]');
-            const user = users.find(u => u.username === username && u.password === password);
+            // پاک کردن پیام‌های قبلی
+            errorMsg.textContent = '';
+            successMsg.textContent = '';
 
-            if (user) {
-                err.textContent = '';
-                localStorage.setItem('barghino_current_user', JSON.stringify({ username }));
-                window.location.href = '/dashboard.html';
-            } else {
-                err.textContent = '❌ نام کاربری یا رمز عبور اشتباه است';
+            // اعتبارسنجی
+            if (!username || !password || !confirmPassword) {
+                errorMsg.textContent = '❌ تمام فیلدها را پر کنید';
+                return;
             }
-        });
 
-        document.getElementById('togglePass').addEventListener('click', () => {
-            const pw = document.getElementById('password');
-            pw.type = pw.type === 'password' ? 'text' : 'password';
+            if (username.length < 3) {
+                errorMsg.textContent = '❌ نام کاربری حداقل ۳ کاراکتر باشد';
+                return;
+            }
+
+            if (password.length < 4) {
+                errorMsg.textContent = '❌ رمز عبور حداقل ۴ کاراکتر باشد';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorMsg.textContent = '❌ رمز عبور و تکرار آن مطابقت ندارد';
+                return;
+            }
+
+            // ذخیره در localStorage
+            const users = JSON.parse(localStorage.getItem('barghino_users') || '[]');
+
+            if (users.find(u => u.username === username)) {
+                errorMsg.textContent = '❌ این نام کاربری قبلاً ثبت شده است';
+                return;
+            }
+
+            users.push({ username, password });
+            localStorage.setItem('barghino_users', JSON.stringify(users));
+
+            successMsg.textContent = '✅ ثبت‌نام با موفقیت انجام شد! به صفحه ورود هدایت می‌شوید...';
+
+            setTimeout(() => {
+                window.location.href = '/login.html';
+            }, 2000);
         });
 
         // ===================================================================
-        // 4. دکمه‌های ناوبری
+        // 4. نمایش/مخفی کردن رمز عبور
         // ===================================================================
-        document.getElementById('goShopFromLogin').addEventListener('click', () => {
-            window.location.href = '/shop';
-        });
-        document.getElementById('goProductFromLogin').addEventListener('click', () => {
-            window.location.href = '/product';
-        });
-        document.getElementById('backToLanding').addEventListener('click', () => {
-            window.location.href = '/';
+        document.getElementById('togglePass').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                this.textContent = '👁️';
+            }
         });
     </script>
 </body>
